@@ -1,8 +1,13 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
+import ReportModal from "../ModalContainers/reportModal";
+import EmergencyModal from "../ModalContainers/emergencyModal";
+import SettingsModal from "../ModalContainers/settingsModal";
 
-export default function QuickActions({ tripStatus, onLogout }) {
-  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+const QuickActions = ({ tripStatus, onLogout }) => {
+  const [showReportModal, setShowReportModal] = useState(false);
+  const [showEmergencyModal, setShowEmergencyModal] = useState(false);
+  const [showSettingsModal, setShowSettingsModal] = useState(false);
 
   const handleLogout = () => {
     toast.info("Logging out...", {
@@ -19,17 +24,11 @@ export default function QuickActions({ tripStatus, onLogout }) {
   };
 
   const handleEmergency = () => {
-    toast.error("🚨 Emergency alert sent to admin - Help is on the way", {
-      position: "top-center",
-      autoClose: 5000,
-    });
+    setShowEmergencyModal(true);
   };
 
   const handleReportIssue = () => {
-    toast.warning("Issue report submitted successfully", {
-      position: "top-right",
-      autoClose: 3000,
-    });
+    setShowReportModal(true);
   };
 
   const handleContactSupport = () => {
@@ -40,14 +39,12 @@ export default function QuickActions({ tripStatus, onLogout }) {
   };
 
   const handleSettings = () => {
-    toast.info("Settings feature coming soon", {
-      position: "top-right",
-      autoClose: 3000,
-    });
+    setShowSettingsModal(true);
   };
 
   return (
-    <div className="section">
+    <>
+      <div className="section">
       <h2 className="section-title">Quick Actions</h2>
 
       <div className="actions-grid">
@@ -85,5 +82,21 @@ export default function QuickActions({ tripStatus, onLogout }) {
         Logout
       </button>
     </div>
+
+      <ReportModal
+        isOpen={showReportModal}
+        onClose={() => setShowReportModal(false)}
+      />
+      <EmergencyModal
+        isOpen={showEmergencyModal}
+        onClose={() => setShowEmergencyModal(false)}
+      />
+      <SettingsModal
+        isOpen={showSettingsModal}
+        onClose={() => setShowSettingsModal(false)}
+      />
+    </>
   );
-}
+};
+
+export default QuickActions;
